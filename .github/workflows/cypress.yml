@@ -1,0 +1,31 @@
+name: Cypress
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  e2e:
+    name: Pesquisa de artigos
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cypress
+        uses: cypress-io/github-action@v6
+        with:
+          install-command: npm ci
+          browser: electron
+
+      - name: Evidências da falha
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-evidencias
+          path: |
+            cypress/screenshots
+            cypress/videos
+          if-no-files-found: ignore

@@ -1,0 +1,17 @@
+{
+  "name": "agibank-blog-busca-cypress",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Modelo de automação E2E da pesquisa de artigos do blog do Agi, feito com Cypress.",
+  "scripts": {
+    "test": "cypress run",
+    "test:chrome": "cypress run --browser chrome",
+    "cy:open": "cypress open"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "cypress": "14.5.4"
+  }
+}
