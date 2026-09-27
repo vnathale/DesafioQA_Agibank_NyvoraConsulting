@@ -90,5 +90,5 @@ Erros de terceiros que não impedem a pesquisa (`imagesLoaded is not a function`
 3. Colocar cada seletor em `cypress/support/seletores.js`.
 4. Colocar massa em `cypress/fixtures`.
 5. Isolar contorno de ambiente em um command, com o motivo escrito no próprio arquivo.
-6. Fazer `npm test` ser o mesmo comando do pipeline.
+6. Fazer `npm test` ser o mesmo comando do pipeline. Os outros modos ficam em `execucoes/`, com o comando e a pasta do Allure descritos em `execucoes/README.md`.
 7. Registrar no README o que a suíte deixa de fora e por quê.

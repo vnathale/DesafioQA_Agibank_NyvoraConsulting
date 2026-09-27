@@ -36,17 +36,34 @@ execucoes/
 
 `npm test` apaga o resultado anterior daquele modo, roda a suíte e gera o HTML. Se um teste falha, o HTML ainda é gerado e o comando termina com erro, para o pipeline continuar vermelho e a evidência continuar disponível.
 
-## Como ler o relatório
+## Como executar e ler o relatório
+
+O passo a passo de cada modo, a pasta gerada e o que mostrar na apresentação estão em [`execucoes/README.md`](../execucoes/README.md). A sequência geral, na raiz do projeto:
 
 ```bash
 npm test
-npm run allure:report
+node execucoes/relatorio.js headless
 ```
 
-O segundo comando junta os modos já executados e abre o relatório. Para reabrir só o headless:
+O primeiro comando roda os três cenários no Electron e gera o HTML em `execucoes/headless/allure-report`. O segundo abre esse relatório no navegador.
+
+Os outros modos usam o mesmo desenho. Troque o comando e, na hora de abrir, o nome do modo:
 
 ```bash
-node execucoes/relatorio.js headless
+npm run test:chrome
+node execucoes/relatorio.js chrome
+
+npm run test:headed
+node execucoes/relatorio.js headed
+
+npm run cy:open
+node execucoes/relatorio.js interativo
+```
+
+Para juntar os modos que já rodaram num HTML só:
+
+```bash
+npm run allure:report
 ```
 
 No relatório, a árvore de comportamento mostra épico, funcionalidade e história. Dentro do teste, os passos são os comandos do Cypress. O parâmetro `termo` mostra o que foi pesquisado. Uma falha leva o screenshot que o Cypress já grava.

@@ -121,7 +121,7 @@ npm run allure:report
 
 ## Outros modos
 
-A pasta [`execucoes`](execucoes) separa cada forma de rodar. Cada uma grava o próprio resultado e o próprio HTML.
+A pasta [`execucoes`](execucoes) separa cada forma de rodar. O passo a passo de cada comando, a pasta do Allure e o que mostrar na apresentação estão em [`execucoes/README.md`](execucoes/README.md).
 
 | Comando | Quando usar na apresentação |
 | --- | --- |
