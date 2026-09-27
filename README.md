@@ -1,87 +1,178 @@
-# Pesquisa de artigos do blog do Agi
+# 🔎 Pesquisa de artigos do Blog do Agi
 
-Suíte E2E em [Cypress](https://www.cypress.io/) para a pesquisa de artigos aberta pela lupa do [blog do Agi](https://blog.agibank.com.br/).
+Suíte **E2E em [Cypress](https://www.cypress.io/)** para a pesquisa de artigos aberta pela lupa do **[Blog do Agi](https://blog.agibank.com.br/)**.
 
-O endereço do enunciado, [blogdoagi.com.br](https://blogdoagi.com.br/), abre `https://blog.agibank.com.br/`. A automação usa esse host.
+O endereço informado no enunciado, [blogdoagi.com.br](https://blogdoagi.com.br/), redireciona para `https://blog.agibank.com.br/`. A automação utiliza esse host como fonte da jornada.
 
-Este README é o roteiro da apresentação: o que foi pedido, a visão da solução e os comandos na ordem em que a suíte é instalada, executada e lida no Allure.
+> 🎯 **Objetivo deste README:** servir como roteiro técnico da apresentação, mostrando o que foi solicitado, a estratégia adotada, a arquitetura da solução e a sequência de comandos para instalar, executar e analisar os resultados no **Allure**.
 
-O detalhe de risco e escopo está em [`docs/analise-e-estrategia.md`](docs/analise-e-estrategia.md). O desenho do relatório está em [`docs/artigo-allure.md`](docs/artigo-allure.md).
+📚 O detalhamento de risco e escopo está em [`docs/analise-e-estrategia.md`](docs/analise-e-estrategia.md).
 
-## O que foi solicitado
+📊 O desenho e a estratégia do relatório estão em [`docs/artigo-allure.md`](docs/artigo-allure.md).
 
-O desafio pede a automação da pesquisa de artigos do blog, a partir da lupa no canto superior direito.
+---
 
-| Pedido | Como este repositório responde |
+## 📋 O que foi solicitado
+
+O desafio propõe a automação da **pesquisa de artigos do blog**, iniciada pela lupa localizada no canto superior direito.
+
+| 📌 Pedido | ✅ Como este repositório responde |
 | --- | --- |
-| Pelo menos dois cenários relevantes | Três cenários: termo com artigos, termo sem resultado e abrir a lupa para sair sem pesquisar |
-| Linguagem à escolha | Cypress com JavaScript. O avaliador só precisa de Node.js e npm |
-| Repositório público no GitHub | https://github.com/vnathale/DesafioQA_Agibank_NyvoraConsulting |
-| README para configurar e executar | Este arquivo, com a sequência de comandos abaixo |
-| Executável em Linux, Windows e macOS | Os comandos são os mesmos nos três sistemas. O navegador padrão é o Electron, que vem com o Cypress |
-| Pipeline | [GitHub Actions](.github/workflows/cypress.yml) roda `npm test` e publica o HTML do Allure |
+| Pelo menos dois cenários relevantes | 🧪 Três cenários: termo com artigos, termo sem resultado e abertura da lupa com saída sem pesquisa |
+| Linguagem à escolha | 💻 Cypress com JavaScript. O avaliador precisa apenas de Node.js e npm |
+| Repositório público no GitHub | 🔗 [DesafioQA_Agibank_NyvoraConsulting](https://github.com/vnathale/DesafioQA_Agibank_NyvoraConsulting) |
+| README para configurar e executar | 📖 Este arquivo apresenta toda a sequência de execução |
+| Executável em Linux, Windows e macOS | 🖥️ Os mesmos comandos são utilizados nos três sistemas |
+| Pipeline | ⚙️ [GitHub Actions](.github/workflows/cypress.yml) executa `npm test` e publica o HTML do Allure |
 
-## Visão da solução
+---
 
-A lupa é a entrada da jornada. O valor para o leitor do blog está no que acontece depois: achar artigos sobre o termo, ou entender que nada foi encontrado. A suíte protege esses dois contratos e ainda confirma que a lupa abre o campo e pode ser dispensada com Escape.
+## 🧠 Visão da solução
 
-A automação fala a língua de quem usa o blog. O arquivo de teste não contém seletor CSS. A página inicial pesquisa; a página de resultados confere o retorno. Os termos ficam em um fixture, para trocar a massa sem mexer no fluxo.
+A **lupa é o ponto de entrada da jornada**.
 
-O Allure entra como evidência da execução. Cada comando do Cypress vira um passo. Épico, funcionalidade, história, severidade e o termo pesquisado aparecem no HTML. O relatório é gerado com o Allure 3, em Node, sem Java.
+O valor para quem utiliza o blog está no que acontece depois:
 
-## Cenários que a apresentação mostra
+- 🔎 encontrar artigos relacionados ao termo pesquisado;
+- 🚫 entender claramente quando nenhum resultado é encontrado;
+- ⌨️ conseguir abrir e fechar a pesquisa sem executar uma busca.
 
-| Cenário | O que a pessoa faz | O que a suíte confere | Severidade |
+A suíte protege esses contratos e valida o comportamento esperado da funcionalidade.
+
+### 🏗️ Estratégia de automação
+
+A automação foi construída pensando na **jornada do usuário**, e não apenas na interação com elementos da página.
+
+O arquivo de teste não contém seletores CSS diretamente.
+
+A responsabilidade está distribuída entre:
+
+- 🧪 **Specs:** descrevem os cenários de negócio;
+- 📄 **Fixtures:** armazenam os termos utilizados na pesquisa;
+- 🧭 **Page Objects:** concentram ações e validações da jornada;
+- 🎯 **Seletores:** centralizam o contrato com o HTML;
+- 📊 **Allure:** registra evidências e contexto da execução.
+
+Essa separação facilita a manutenção e permite alterar a massa de testes sem modificar o fluxo da automação.
+
+### 📊 Evidências com Allure
+
+O **Allure** entra como camada de evidência da execução.
+
+Cada comando relevante do Cypress pode ser apresentado como um passo do teste, enquanto informações como:
+
+- 🏷️ Épico;
+- 🧩 Funcionalidade;
+- 📖 História;
+- 🚨 Severidade;
+- 🔎 Termo pesquisado;
+- 🌎 Ambiente de execução;
+
+ficam disponíveis no relatório HTML.
+
+O relatório utiliza **Allure 3**, executado em Node.js, sem necessidade de instalação do Java.
+
+---
+
+## 🧪 Cenários apresentados
+
+A suíte contempla **três cenários principais**:
+
+| 🧪 Cenário | 👤 Ação do usuário | ✅ Validação | 🚨 Severidade |
 | --- | --- | --- | --- |
-| Termo existente | Pesquisa `cartão` pela lupa | URL `?s=cartão`, título com o termo e ao menos um artigo que o menciona | critical |
-| Termo inexistente | Pesquisa um termo que não está no blog | URL e título com o termo, nenhum artigo e a mensagem de que nada foi encontrado | critical |
-| Abrir e sair | Abre a lupa e pressiona Escape | O campo "Digite sua busca" aparece e a home volta sem pesquisa e sem hash | normal |
+| 🔎 **Termo existente** | Pesquisa `cartão` pela lupa | URL `?s=cartão`, título contendo o termo e pelo menos um artigo relacionado | `critical` |
+| 🚫 **Termo inexistente** | Pesquisa um termo que não está no blog | URL e título contendo o termo, ausência de artigos e mensagem informando que nada foi encontrado | `critical` |
+| ⌨️ **Abrir e sair** | Abre a lupa e pressiona `Escape` | Campo `"Digite sua busca"` aparece e a home retorna sem pesquisa e sem hash | `normal` |
 
-Os termos estão em [`cypress/fixtures/busca.json`](cypress/fixtures/busca.json).
+📁 Os termos utilizados ficam em:
 
-## Pré-requisitos
+[`cypress/fixtures/busca.json`](cypress/fixtures/busca.json)
 
-- [Node.js](https://nodejs.org/) 18 ou superior. Este projeto foi exercitado no Node 22
-- npm, que acompanha o Node
-- Internet até `https://blog.agibank.com.br`
+---
 
-Chrome é opcional. O comando padrão usa o Electron. Java não entra na instalação: o Allure 3 roda em Node.
+## ⚙️ Pré-requisitos
 
-## Passo a passo
+Antes de executar o projeto, certifique-se de possuir:
 
-Abra o terminal na pasta do projeto. No Windows, PowerShell ou Prompt. No macOS e no Linux, o terminal habitual. Os comandos são os mesmos.
+- 🟢 **[Node.js](https://nodejs.org/)** 18 ou superior;
+- 📦 **npm**, instalado junto com o Node.js;
+- 🌐 acesso à internet;
+- 🔗 acesso ao `https://blog.agibank.com.br`.
 
-### 1. Baixar o repositório
+> 📝 O projeto foi exercitado utilizando **Node.js 22**.
+
+### 🌐 Navegadores
+
+O **Chrome é opcional**.
+
+O comando padrão utiliza o **Electron**, navegador que acompanha a instalação do Cypress.
+
+☕ **Java não é necessário.** O Allure 3 utilizado pelo projeto roda em Node.js.
+
+---
+
+# 🚀 Passo a passo
+
+Abra o terminal na pasta onde deseja trabalhar.
+
+Os comandos são os mesmos para:
+
+- 🪟 Windows;
+- 🍎 macOS;
+- 🐧 Linux.
+
+---
+
+## 1️⃣ Baixar o repositório
 
 ```bash
 git clone https://github.com/vnathale/DesafioQA_Agibank_NyvoraConsulting.git
 cd DesafioQA_Agibank_NyvoraConsulting
 ```
 
-### 2. Instalar as dependências
+---
+
+## 2️⃣ Instalar as dependências
 
 ```bash
 npm install
 ```
 
-Esse comando lê o `package-lock.json`, instala o Cypress, o Allure e baixa o binário do navegador de teste. A primeira vez usa a rede e pode levar alguns minutos.
+Esse comando:
 
-### 3. Confirmar que o Cypress está pronto
+- 📦 lê o `package-lock.json`;
+- 🧪 instala o Cypress;
+- 📊 instala as dependências do Allure;
+- 🌐 baixa o binário necessário para execução do navegador de teste.
+
+> ⏳ Na primeira execução, o processo utiliza a internet e pode levar alguns minutos.
+
+---
+
+## 3️⃣ Confirmar se o Cypress está pronto
 
 ```bash
 npx cypress verify
 ```
 
-A saída esperada contém `Cypress 14.5.4 is installed`.
+A saída esperada deve conter:
 
-Se a mensagem disser que o executável não foi encontrado, o cache dessa versão está incompleto. Reinstale e confira de novo:
+```text
+Cypress 14.5.4 is installed
+```
+
+### 🔧 Caso o executável não seja encontrado
+
+Execute:
 
 ```bash
 npx cypress install --force
 npx cypress verify
 ```
 
-No Windows, se a reinstalação continuar falhando na extração, apague a pasta incompleta e rode o install outra vez:
+### 🪟 Windows — caso a reinstalação continue falhando
+
+Remova o cache incompleto e reinstale:
 
 ```bash
 rmdir /s /q %LOCALAPPDATA%\Cypress\Cache\14.5.4
@@ -89,94 +180,338 @@ npx cypress install --force
 npx cypress verify
 ```
 
-### 4. Executar os testes
+---
+
+# 4️⃣ ▶️ Executar os testes
 
 ```bash
 npm test
 ```
 
-Esse é o modo de apresentação e também o comando do pipeline: Cypress headless no Electron. Ao terminar, o HTML do Allure fica em `execucoes/headless/allure-report`.
+Esse é o **modo padrão da apresentação** e também o comando utilizado pelo pipeline.
 
-O terminal lista os três cenários. Os três precisam aparecer como passando para a demonstração seguir para o relatório.
+A execução acontece em:
 
-### 5. Abrir o Allure
+- 🧪 Cypress;
+- ⚡ modo headless;
+- 🌐 navegador Electron.
+
+Ao finalizar, o HTML do Allure estará disponível em:
+
+```text
+execucoes/headless/allure-report
+```
+
+### ✅ Critério para seguir com a apresentação
+
+O terminal deve apresentar os **três cenários como aprovados**.
+
+```text
+✓ encontra artigos quando o termo existe no blog
+✓ informa que não há artigos quando o termo não existe
+✓ abre a busca pela lupa e permite sair sem pesquisar
+```
+
+---
+
+# 5️⃣ 📊 Abrir o relatório Allure
 
 ```bash
 node execucoes/relatorio.js headless
 ```
 
-O navegador abre o relatório dessa execução. Na apresentação, mostre nesta ordem:
+O navegador abrirá o relatório correspondente à execução.
 
-1. O resumo com os três testes passando.
-2. A árvore de comportamento: épico **Blog do Agi**, funcionalidade **Pesquisa de artigos** e as três histórias.
-3. O teste do termo `cartão`: o parâmetro `termo` e os passos até a lista de artigos.
-4. O teste do termo inexistente: a mesma jornada até a mensagem de ausência.
-5. O ambiente da execução: modo `headless`, navegador `electron` e o endereço do blog.
+### 🎤 Ordem sugerida para apresentação
 
-Para juntar tudo o que já foi executado (headless, Chrome, janela visível) num relatório só:
+Mostre o relatório nesta sequência:
+
+**1. 📊 Resumo**
+
+Apresente os três testes aprovados.
+
+**2. 🌳 Árvore de comportamento**
+
+Mostre:
+
+> **Épico:** Blog do Agi  
+> **Funcionalidade:** Pesquisa de artigos  
+> **Histórias:** três cenários automatizados
+
+**3. 🔎 Pesquisa com termo existente**
+
+Mostre:
+
+- parâmetro `termo`;
+- abertura da lupa;
+- preenchimento da pesquisa;
+- execução;
+- URL;
+- retorno dos artigos.
+
+**4. 🚫 Pesquisa sem resultado**
+
+Mostre a mesma jornada até a mensagem informando que nenhum artigo foi encontrado.
+
+**5. 🖥️ Ambiente**
+
+Apresente:
+
+- modo `headless`;
+- navegador `electron`;
+- endereço utilizado;
+- informações da execução.
+
+---
+
+## 📚 Consolidar todas as execuções no Allure
+
+Para juntar os resultados dos modos já executados:
 
 ```bash
 npm run allure:report
 ```
 
-## Outros modos
+Isso permite consolidar execuções realizadas em:
 
-A pasta [`execucoes`](execucoes) separa cada forma de rodar. O passo a passo de cada comando, a pasta do Allure e o que mostrar na apresentação estão em [`execucoes/README.md`](execucoes/README.md).
+- ⚡ Headless;
+- 🌐 Chrome;
+- 👀 Headed.
 
-| Comando | Quando usar na apresentação |
+---
+
+# 🧪 Outros modos de execução
+
+A pasta [`execucoes`](execucoes) separa cada forma de execução.
+
+O detalhamento dos comandos, diretórios de resultados e roteiro de apresentação está disponível em:
+
+[`execucoes/README.md`](execucoes/README.md)
+
+| 💻 Comando | 🎯 Utilização |
 | --- | --- |
-| `npm test` | Demonstração padrão e o que o GitHub Actions executa |
-| `npm run test:chrome` | Mesma suíte no Chrome instalado na máquina |
-| `npm run test:headed` | Electron com a janela visível, para acompanhar a lupa |
-| `npm run cy:open` | Cypress interativo, para executar um cenário e pausar |
-| `node execucoes/relatorio.js headless` | Reabre o HTML do `npm test` |
-| `npm run allure:report` | Junta os modos já rodados e abre o HTML |
+| `npm test` | ⭐ Demonstração padrão e execução do GitHub Actions |
+| `npm run test:chrome` | 🌐 Executar a suíte utilizando o Chrome instalado |
+| `npm run test:headed` | 👀 Executar o Electron com a janela visível |
+| `npm run cy:open` | 🧪 Abrir o Cypress interativo |
+| `node execucoes/relatorio.js headless` | 📊 Reabrir o relatório do `npm test` |
+| `npm run allure:report` | 📚 Consolidar os modos já executados |
 
-Para reabrir outro modo, troque `headless` por `chrome`, `headed` ou `interativo`:
+### 🔄 Reabrir outro relatório
+
+Troque `headless` pelo modo desejado:
 
 ```bash
 node execucoes/relatorio.js chrome
 ```
 
-Um spec só, se a apresentação quiser isolar a pesquisa:
+Outras opções:
+
+```text
+headless
+chrome
+headed
+interativo
+```
+
+---
+
+## 🎯 Executar apenas o spec da pesquisa
+
+Para isolar a execução da funcionalidade:
 
 ```bash
 npx cypress run --spec cypress/e2e/busca/pesquisa-de-artigos.cy.js
 ```
 
-Quando um teste falha, o Cypress grava a tela em `cypress/screenshots/` e o Allure anexa esse passo ao relatório. As pastas `allure-results` e `allure-report` são geradas na hora e não entram no Git.
+---
 
-## Pipeline
+## 📸 Evidências em caso de falha
 
-[`.github/workflows/cypress.yml`](.github/workflows/cypress.yml) roda `npm test` no Ubuntu a cada push, pull request ou disparo manual. O navegador é o Electron, o mesmo da máquina local. O HTML do Allure sobe como artefato `allure-report`. Screenshots e vídeo de falha sobem em outro artefato.
+Quando um teste falha:
 
-## Estrutura
+- 📸 o Cypress grava a screenshot em `cypress/screenshots/`;
+- 📊 o Allure anexa a evidência correspondente ao relatório;
+- 📁 `allure-results` armazena os resultados brutos;
+- 📁 `allure-report` armazena o relatório HTML.
 
+Essas pastas são geradas durante a execução e **não são versionadas no Git**.
+
+---
+
+# ⚙️ Pipeline CI/CD
+
+O workflow:
+
+[`.github/workflows/cypress.yml`](.github/workflows/cypress.yml)
+
+executa:
+
+```bash
+npm test
 ```
+
+no **Ubuntu**, sempre que ocorrer:
+
+- 🚀 `push`;
+- 🔀 `pull request`;
+- ▶️ disparo manual.
+
+### 🔧 Ambiente do pipeline
+
+| Item | Configuração |
+| --- | --- |
+| 💻 Sistema operacional | Ubuntu |
+| 🧪 Framework | Cypress |
+| 🌐 Navegador | Electron |
+| ⚡ Execução | Headless |
+| 📊 Relatório | Allure |
+| 📦 Artefato | `allure-report` |
+| 📸 Evidências | Screenshots e vídeos de falha |
+
+O navegador utilizado no pipeline é o mesmo utilizado no modo padrão local, reduzindo diferenças entre **execução local e CI**.
+
+---
+
+# 🗂️ Estrutura do projeto
+
+```text
 cypress.config.js
+
 cypress/
-  e2e/busca/pesquisa-de-artigos.cy.js   cenários, na linguagem de quem pesquisa
-  fixtures/busca.json                   termos pesquisados
-  support/e2e.js                        Allure e exceções conhecidas do blog
-  support/commands.js                   preparação do JavaScript adiado
-  support/seletores.js                  contrato com o HTML, num arquivo só
-  support/pages/                        ações e conferências da jornada
-execucoes/                              um script por modo de execução
-docs/analise-e-estrategia.md            por que estes cenários e o que ficou de fora
-docs/artigo-allure.md                   como o relatório é montado
+├── e2e/
+│   └── busca/
+│       └── pesquisa-de-artigos.cy.js
+│           └── cenários na linguagem de quem pesquisa
+│
+├── fixtures/
+│   └── busca.json
+│       └── termos pesquisados
+│
+└── support/
+    ├── e2e.js
+    │   └── Allure e exceções conhecidas do blog
+    │
+    ├── commands.js
+    │   └── preparação do JavaScript adiado
+    │
+    ├── seletores.js
+    │   └── contrato com o HTML
+    │
+    └── pages/
+        └── ações e validações da jornada
+
+execucoes/
+└── scripts por modo de execução
+
+docs/
+├── analise-e-estrategia.md
+│   └── cenários, riscos e escopo
+│
+└── artigo-allure.md
+    └── estratégia de construção do relatório
 ```
 
-Se o tema mudar um id, a alteração começa em `cypress/support/seletores.js`.
+### 🎯 Manutenção dos seletores
 
-## Limitações conhecidas
+Caso o HTML da página altere algum identificador utilizado pela automação, a manutenção começa em:
 
-O detalhe está em [`docs/analise-e-estrategia.md`](docs/analise-e-estrategia.md).
+```text
+cypress/support/seletores.js
+```
 
-- A suíte cobre o header de desktop (1366×768). O header mobile é outro markup.
-- O JavaScript que abre a lupa chega na página em `script[data-src]` e o loader atual não o executa. `cy.prepararBusca()` carrega esse bundle e reaplica o handler na lupa visível, porque o header fixo recria o ícone sem o `onclick`.
-- Fechar pelo X do overlay fica coberto pelo header fixo. O cenário de saída usa Escape.
-- Sugestão enquanto se digita e a busca com o campo vazio ficaram de fora. A primeira depende do evento `load`. A segunda precisa de uma regra de produto antes de virar critério.
+Essa centralização reduz o impacto de mudanças no front-end sobre os cenários automatizados.
 
-## Licença
+---
 
-MIT. Veja [LICENSE](LICENSE).
+# ⚠️ Limitações conhecidas
+
+O detalhamento completo está em:
+
+[`docs/analise-e-estrategia.md`](docs/analise-e-estrategia.md)
+
+### 🖥️ Desktop
+
+A suíte cobre o header desktop em:
+
+```text
+1366 × 768
+```
+
+O header mobile utiliza outro markup e, portanto, não faz parte deste escopo.
+
+### ⚙️ JavaScript da lupa
+
+O JavaScript responsável pela abertura da lupa chega à página por meio de:
+
+```html
+script[data-src]
+```
+
+O loader atual não executa esse bundle automaticamente.
+
+Por isso:
+
+```text
+cy.prepararBusca()
+```
+
+carrega o bundle e reaplica o handler na lupa visível.
+
+Isso ocorre porque o header fixo recria o ícone sem o `onclick` esperado.
+
+### ❌ Fechamento pelo X
+
+O fechamento pelo botão **X** do overlay fica coberto pelo header fixo.
+
+Por isso, o cenário de saída utiliza:
+
+```text
+Escape
+```
+
+### 🔎 Sugestões durante a digitação
+
+A sugestão automática enquanto o usuário digita ficou fora do escopo.
+
+A funcionalidade depende do evento `load` e exige uma validação específica antes de ser transformada em critério automatizado.
+
+### ⌨️ Pesquisa vazia
+
+A pesquisa com o campo vazio também não foi incluída.
+
+Antes de automatizá-la, é necessário definir uma **regra de produto clara** para estabelecer o comportamento esperado.
+
+> 💡 **Princípio adotado:** não transformar comportamento indefinido em falso critério de teste.
+
+---
+
+# 🏁 Conclusão
+
+A solução foi construída para demonstrar mais do que simplesmente **"clicar na lupa e validar uma URL"**.
+
+A suíte contempla:
+
+```text
+🔎 Jornada do usuário
+        ↓
+🧪 Cenários funcionais
+        ↓
+🎯 Page Objects + Seletores
+        ↓
+📊 Evidências Allure
+        ↓
+⚙️ Execução CI/CD
+        ↓
+📈 Resultado rastreável
+```
+
+O resultado é uma suíte E2E **executável, rastreável e preparada para CI/CD**, com separação entre cenário, massa, ações, seletores e evidências.
+
+---
+
+## 📄 Licença
+
+MIT.
+
+Consulte [`LICENSE`](LICENSE).

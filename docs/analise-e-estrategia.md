@@ -1,14 +1,22 @@
-# Análise e estratégia de teste
+# 🧠 Análise e estratégia de teste
 
-Modelo para decidir o que automatizar antes de escrever a suíte. Este arquivo usa a pesquisa de artigos do [blog do Agi](https://blog.agibank.com.br/) como exemplo preenchido. Em outro produto, troque o contexto e mantenha a mesma sequência.
+Modelo para decidir o que automatizar antes de escrever a suíte. Este arquivo usa a pesquisa de artigos do [Blog do Agi](https://blog.agibank.com.br/) como exemplo preenchido. Em outro produto, troque o contexto e mantenha a mesma sequência.
 
-## 1. Objetivo
+O roteiro de instalação, execução e apresentação está no [README](../README.md). Os comandos de cada modo estão em [`execucoes/README.md`](../execucoes/README.md).
+
+---
+
+## 1. 🎯 Objetivo
 
 Proteger a jornada em que uma pessoa abre a pesquisa pela lupa, informa um termo e entende o que o blog devolveu: uma lista de artigos ou um aviso de que nada foi encontrado.
 
+A suíte também confirma que a lupa abre o campo e pode ser dispensada com Escape, sem disparar uma busca.
+
 Fora deste objetivo: cadastro, comentários, menu, web stories e o conteúdo editorial de cada artigo.
 
-## 2. Como a pesquisa funciona
+---
+
+## 2. 🔎 Como a pesquisa funciona
 
 | Passo | O que o blog faz |
 | --- | --- |
@@ -22,7 +30,9 @@ O endereço citado no enunciado, `https://blogdoagi.com.br/`, abre `https://blog
 
 O header de desktop aparece a partir de 922 px (`astra.break_point` = 921). A suíte fixa o viewport em 1366×768, que é o layout da lupa descrita no enunciado. Abaixo disso o tema troca para outro header.
 
-## 3. Riscos que justificam automação
+---
+
+## 3. ⚠️ Riscos que justificam automação
 
 1. **A lupa deixa de abrir o campo.** A entrada da jornada some e a pesquisa deixa de existir para quem usa o header.
 2. **Um termo conhecido deixa de listar artigos.** Regressão de consulta, de template ou de navegação até `/?s=`.
@@ -38,19 +48,33 @@ Riscos observados e deixados de fora da suíte, com o motivo:
 | `#close` do overlay fica coberto pelo header fixo; o clique não chega no botão | Fechar pelo botão não é um caminho estável. A suíte dispensa a busca com Escape, que o tema trata em `document.onkeydown` |
 | Paginação, mobile e o conteúdo interno do artigo | Outra jornada, outro risco |
 
-## 4. Cenários automatizados
+> 💡 **Princípio adotado:** não transformar comportamento indefinido em falso critério de teste.
 
-Três cenários, os dois primeiros são o núcleo. O terceiro trava a entrada e a saída da lupa, que é o objeto do enunciado.
+---
 
-1. **Termo existente.** Pesquisar `cartão` pela lupa. A URL fica `?s=cartão`, o título repete o termo e pelo menos um artigo menciona o termo, sem depender de um post específico.
-2. **Termo inexistente.** Pesquisar `zzzxqy987termoinexistente`. A URL e o título repetem o termo, a lista de artigos fica vazia e a mensagem de ausência aparece.
-3. **Abrir e sair.** A lupa mostra o campo "Digite sua busca" e Escape devolve a home sem `?s=` e sem hash.
+## 4. 🧪 Cenários automatizados
+
+Três cenários. Os dois primeiros são o núcleo. O terceiro trava a entrada e a saída da lupa, que é o objeto do enunciado.
+
+| Cenário | História no Allure | Severidade | O que a suíte confere |
+| --- | --- | --- | --- |
+| Termo existente | Termo existente | `critical` | Pesquisar `cartão`. A URL fica `?s=cartão`, o título repete o termo e pelo menos um artigo menciona o termo, sem depender de um post específico |
+| Termo inexistente | Termo inexistente | `critical` | Pesquisar `zzzxqy987termoinexistente`. A URL e o título repetem o termo, a lista de artigos fica vazia e a mensagem de ausência aparece |
+| Abrir e sair | Abrir e sair da lupa | `normal` | A lupa mostra o campo "Digite sua busca" e Escape devolve a home sem `?s=` e sem hash |
+
+Os títulos que o Cypress imprime no terminal são os textos dos `it()`:
+
+- `encontra artigos quando o termo existe no blog`
+- `informa que não há artigos quando o termo não existe`
+- `abre a busca pela lupa e permite sair sem pesquisar`
 
 Os termos ficam em `cypress/fixtures/busca.json`. Trocar o termo de um projeto novo é troca de dado, não de fluxo.
 
-## 5. Desenho da suíte
+---
 
-```
+## 5. 🏗️ Desenho da suíte
+
+```text
 cenário (e2e)
   -> page object   (o que a pessoa faz e o que ela deve perceber)
     -> seletores   (o contrato com o HTML, num arquivo só)
@@ -63,8 +87,11 @@ cenário (e2e)
 - **Espera explícita.** O Cypress repete a asserção até o timeout. Não há `cy.wait` com tempo fixo.
 - **Uma tentativa extra no `cypress run`.** O alvo é um site de produção, sujeito a latência. No modo interativo não há retry, para a falha aparecer na hora.
 - **Electron como navegador padrão.** Ele vem com o Cypress, então `npm test` roda em Windows, macOS e Linux sem instalar Chrome. O Chrome continua disponível com `npm run test:chrome`.
+- **Evidência no Allure 3.** Cada modo em `execucoes/` grava o próprio HTML, em Node, sem Java.
 
-## 6. Achado de testabilidade
+---
+
+## 6. ⚙️ Achado de testabilidade
 
 O HTML entrega o JavaScript da busca em tags `<script type="text/javascript" data-src=".../_jb_static/...">`. Sem `src`, o navegador não executa o arquivo. O loader do LiteSpeed (`litespeed_load_delayed_js_force`) só promove scripts `type="litespeed/javascript"`.
 
@@ -83,7 +110,9 @@ Quando o blog passar a entregar esse script sozinho, o comando não injeta nada.
 
 Erros de terceiros que não impedem a pesquisa (`imagesLoaded is not a function` no carrossel, `ResizeObserver`, `Script error`) são ignorados em `cypress/support/e2e.js`. Qualquer outra exceção continua falhando o teste.
 
-## 7. Como reutilizar em outro projeto
+---
+
+## 7. 🔁 Como reutilizar em outro projeto
 
 1. Preencher as seções 1 a 4 com o produto novo antes de abrir o Cypress.
 2. Manter no spec só a linguagem da pessoa usuária.
