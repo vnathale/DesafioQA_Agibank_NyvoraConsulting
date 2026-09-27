@@ -1,4 +1,6 @@
+const os = require('os')
 const { defineConfig } = require('cypress')
+const { allureCypress } = require('allure-cypress/reporter')
 
 module.exports = defineConfig({
   video: Boolean(process.env.CI),
@@ -18,5 +20,20 @@ module.exports = defineConfig({
     specPattern: 'cypress/e2e/**/*.cy.js',
     supportFile: 'cypress/support/e2e.js',
     chromeWebSecurity: true,
+    setupNodeEvents(on, config) {
+      allureCypress(on, config, {
+        resultsDir: process.env.ALLURE_RESULTS_DIR || 'allure-results',
+        environmentInfo: {
+          sistema: os.platform(),
+          sistema_versao: os.release(),
+          node: process.version,
+          modo: process.env.EXECUCAO_MODO || 'padrao',
+          navegador: process.env.EXECUCAO_NAVEGADOR || 'electron',
+          blog: 'https://blog.agibank.com.br',
+        },
+      })
+
+      return config
+    },
   },
 })

@@ -2,6 +2,11 @@ node_modules/
 cypress/videos/
 cypress/screenshots/
 cypress/downloads/
+allure-results/
+allure-report/
+execucoes/*/allure-results/
+execucoes/*/allure-report/
+execucoes/consolidado/
 dist/
 .env
 .env.*

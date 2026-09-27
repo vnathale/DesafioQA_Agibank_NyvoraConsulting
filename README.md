@@ -4,7 +4,7 @@ Suíte E2E em [Cypress](https://www.cypress.io/) para a pesquisa de artigos aber
 
 O endereço do enunciado, [blogdoagi.com.br](https://blogdoagi.com.br/), abre `https://blog.agibank.com.br/`. A automação usa esse host.
 
-Este repositório também é um modelo de análise para outros projetos: o raciocínio de risco, escopo e desenho da suíte está em [`docs/analise-e-estrategia.md`](docs/analise-e-estrategia.md).
+Este repositório também é um modelo de análise para outros projetos: o raciocínio de risco, escopo e desenho da suíte está em [`docs/analise-e-estrategia.md`](docs/analise-e-estrategia.md). O relatório Allure e os modos de execução estão em [`docs/artigo-allure.md`](docs/artigo-allure.md).
 
 ## Cenários
 
@@ -44,35 +44,23 @@ npx cypress verify
 
 ## Execução
 
-Modo headless, o mesmo do pipeline:
+Os modos ficam em [`execucoes`](execucoes). Cada um grava o Allure na própria pasta e gera o HTML ao terminar.
 
-```bash
-npm test
-```
+| Comando | Modo |
+| --- | --- |
+| `npm test` | Headless no Electron. É o comando do pipeline |
+| `npm run test:chrome` | Headless no Chrome instalado na máquina |
+| `npm run test:headed` | Electron com a janela visível |
+| `npm run cy:open` | Cypress interativo |
+| `npm run allure:report` | Junta os resultados existentes e abre o HTML |
 
-Modo interativo, com o navegador do Cypress aberto para acompanhar cada passo:
+Não é preciso instalar Java. O relatório usa o Allure 3, que roda em Node.
 
-```bash
-npm run cy:open
-```
-
-No Chrome instalado na máquina:
-
-```bash
-npm run test:chrome
-```
-
-Um spec só:
-
-```bash
-npx cypress run --spec cypress/e2e/busca/pesquisa-de-artigos.cy.js
-```
-
-Quando um teste falha, o Cypress grava a tela em `cypress/screenshots/`. No GitHub Actions o vídeo também é gerado e sobe como artefato da execução que falhou.
+Quando um teste falha, o Cypress grava a tela em `cypress/screenshots/` e o Allure anexa esse passo ao relatório. No GitHub Actions o HTML sobe como artefato `allure-report`.
 
 ## Pipeline
 
-[`.github/workflows/cypress.yml`](.github/workflows/cypress.yml) roda `npm ci` e `cypress run` no Ubuntu a cada push, pull request ou disparo manual. O navegador é o Electron, para a execução do avaliador e a do pipeline usarem o mesmo comando.
+[`.github/workflows/cypress.yml`](.github/workflows/cypress.yml) roda `npm test` no Ubuntu a cada push, pull request ou disparo manual. O navegador é o Electron. O HTML do Allure sobe como artefato da execução.
 
 ## Estrutura
 
@@ -86,6 +74,8 @@ cypress/
   support/seletores.js                  contrato com o HTML
   support/pages/                        ações e conferências da jornada
 docs/analise-e-estrategia.md            análise de risco e desenho da suíte
+docs/artigo-allure.md                   relatório Allure e modos de execução
+execucoes/                              scripts de cada modo (headless, chrome, headed, interativo)
 ```
 
 O spec descreve a jornada. Seletores CSS ficam em `seletores.js`. Se o tema mudar um id, a alteração começa por esse arquivo.

@@ -13,4 +13,5 @@ Cypress.on('uncaught:exception', (err) => {
   }
 })
 
+require('allure-cypress')
 require('./commands')
