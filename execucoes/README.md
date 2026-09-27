@@ -18,4 +18,4 @@ node execucoes/relatorio.js headless
 
 Troque `headless` por `chrome`, `headed` ou `interativo`.
 
-As pastas `allure-results` e `allure-report` são geradas na hora e não entram no Git.
+Na primeira execução o script baixa o binário do Cypress, se ele ainda não estiver na máquina. As pastas `allure-results` e `allure-report` são geradas na hora e não entram no Git.

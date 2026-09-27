@@ -38,7 +38,29 @@ function limparResultados(modo) {
   fs.mkdirSync(resultadosDoModo(modo), { recursive: true })
 }
 
+function temResultados(modo) {
+  const pasta = resultadosDoModo(modo)
+  if (!fs.existsSync(pasta)) {
+    return false
+  }
+
+  return fs.readdirSync(pasta).some((arquivo) => arquivo.endsWith('-result.json'))
+}
+
+function garantirBinario() {
+  if (executar(cypressBin, ['verify']) === 0) {
+    return 0
+  }
+
+  console.log('O binário do Cypress está ausente ou incompleto. A reinstalação começa agora e pode levar alguns minutos.')
+  return executar(cypressBin, ['install', '--force'])
+}
+
 function rodarCypress(modo, { browser, headed, interativo }) {
+  if (garantirBinario() !== 0) {
+    return 1
+  }
+
   limparResultados(modo)
 
   const args = interativo ? ['open'] : ['run', '--browser', browser]
@@ -55,7 +77,8 @@ function rodarCypress(modo, { browser, headed, interativo }) {
 
 function gerarRelatorio(modo) {
   const resultados = resultadosDoModo(modo)
-  if (!fs.existsSync(resultados)) {
+  if (!temResultados(modo)) {
+    console.error('Os testes não geraram resultado. O relatório Allure não foi criado.')
     return 1
   }
 
