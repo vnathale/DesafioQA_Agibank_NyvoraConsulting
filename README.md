@@ -352,7 +352,7 @@ Isso é o Cypress headless no Electron, o mesmo modo da apresentação local.
 | Pipeline | Arquivo | Quando roda |
 | --- | --- | --- |
 | GitHub Actions | [`.github/workflows/cypress.yml`](.github/workflows/cypress.yml) | Push, pull request ou disparo manual, no Ubuntu |
-| GitLab CI | [`.gitlab-ci.yml`](.gitlab-ci.yml) | Push na branch, merge request ou disparo manual em **Build > Pipelines** |
+| GitLab CI | [`.gitlab-ci.yml`](.gitlab-ci.yml) no projeto [vnathale/desafioqa_agibank_nyvoraconsulting](https://gitlab.com/vnathale/desafioqa_agibank_nyvoraconsulting) | Push na branch, merge request ou disparo manual em **Build > Pipelines** |
 
 ### 🔧 Ambiente do pipeline
 
@@ -365,14 +365,7 @@ Isso é o Cypress headless no Electron, o mesmo modo da apresentação local.
 | 📊 Relatório | Artefato `allure-report` | Artefato `allure-report`, válido por 7 dias |
 | 📸 Evidências | Screenshots e vídeo quando a suíte falha | Screenshots, vídeo e HTML, tenha a suíte passado ou falhado |
 
-No GitLab, o HTML fica em `execucoes/headless/allure-report` e pode ser baixado na página do job. O job se chama `pesquisa-de-artigos`.
-
-Para o pipeline existir no GitLab, o repositório precisa estar lá com o arquivo `.gitlab-ci.yml` na branch padrão. Um projeto vazio no GitLab recebe este código com:
-
-```bash
-git remote add gitlab https://gitlab.com/<grupo>/<projeto>.git
-git push gitlab main
-```
+No GitLab, o HTML fica em `execucoes/headless/allure-report` e pode ser baixado na página do job. O job se chama `pesquisa-de-artigos`. O pipeline aparece em [Build > Pipelines](https://gitlab.com/vnathale/desafioqa_agibank_nyvoraconsulting/-/pipelines).
 
 ---
 
