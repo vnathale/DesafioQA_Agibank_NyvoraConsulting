@@ -1,0 +1,42 @@
+# Mesmo contrato do GitHub Actions: npm test no Electron e o HTML do Allure como artefato.
+# A imagem traz as bibliotecas do Cypress. O binário entra no npm ci.
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
+      when: never
+    - if: $CI_COMMIT_BRANCH
+    - if: $CI_PIPELINE_SOURCE == "web"
+
+stages:
+  - test
+
+variables:
+  CYPRESS_CACHE_FOLDER: "$CI_PROJECT_DIR/.cache/cypress"
+  npm_config_cache: "$CI_PROJECT_DIR/.npm"
+
+cache:
+  key:
+    files:
+      - package-lock.json
+  paths:
+    - .npm/
+    - .cache/cypress/
+
+pesquisa-de-artigos:
+  stage: test
+  image: cypress/base:22.21.0
+  timeout: 20m
+  interruptible: true
+  script:
+    - npm ci
+    - npm test
+  artifacts:
+    name: "allure-report-$CI_COMMIT_SHORT_SHA"
+    when: always
+    expire_in: 7 days
+    paths:
+      - execucoes/headless/allure-report/
+      - cypress/screenshots/
+      - cypress/videos/

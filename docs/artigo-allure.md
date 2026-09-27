@@ -100,9 +100,11 @@ A página de ambiente mostra o modo e o navegador daquela execução. Isso separ
 
 ## ⚙️ Pipeline
 
-O GitHub Actions usa `npm test`, que é o modo headless no Electron, no Ubuntu. Ao final, o HTML de `execucoes/headless/allure-report` sobe como artefato `allure-report`, tenha a suíte passado ou falhado. Screenshots e vídeo do Cypress sobem no artefato `cypress-evidencias` quando a execução falha.
+O GitHub Actions e o GitLab CI usam `npm test`, que é o modo headless no Electron.
 
-O workflow está em [`.github/workflows/cypress.yml`](../.github/workflows/cypress.yml).
+No GitHub, o HTML de `execucoes/headless/allure-report` sobe como artefato `allure-report`, tenha a suíte passado ou falhado. Screenshots e vídeo do Cypress sobem no artefato `cypress-evidencias` quando a execução falha. O workflow está em [`.github/workflows/cypress.yml`](../.github/workflows/cypress.yml).
+
+No GitLab, o job `pesquisa-de-artigos` roda na imagem `cypress/base:22.21.0`. O mesmo HTML, os screenshots e o vídeo ficam no artefato do job por 7 dias. A configuração está em [`.gitlab-ci.yml`](../.gitlab-ci.yml).
 
 ---
 
