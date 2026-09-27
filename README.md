@@ -29,8 +29,8 @@ Não é preciso instalar Chrome. O comando padrão usa o Electron que o Cypress 
 No Windows (PowerShell ou Prompt), macOS ou Linux:
 
 ```bash
-git clone https://github.com/SEU-USUARIO/agibank-blog-busca-cypress.git
-cd agibank-blog-busca-cypress
+git clone https://github.com/vnathale/DesafioQA_Agibank_NyvoraConsulting.git
+cd DesafioQA_Agibank_NyvoraConsulting
 npm install
 ```
 
